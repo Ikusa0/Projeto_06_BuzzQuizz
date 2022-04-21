@@ -1,0 +1,133 @@
+main {
+  width: 73%;
+  margin: 69px 0;
+}
+
+section {
+  margin-top: 77px;
+}
+
+section h2 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  color: black;
+}
+
+ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.create-quizz {
+  width: 100%;
+  min-width: 340px;
+  height: 181px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  border: 1px dashed #d5d5d5;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.create-quizz span {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  color: #b9b9b9;
+
+  width: 220px;
+  text-align: center;
+}
+
+.create-quizz button {
+  border: 1px dashed #ec362d;
+  box-sizing: border-box;
+  border-radius: 50px;
+  background-color: inherit;
+
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 25px;
+  color: #ec362d;
+
+  width: 151px;
+  height: 40px;
+}
+
+.create-quizz button:hover,
+.create-quizz button:focus-visible {
+  outline: none;
+  border: none;
+  color: white;
+
+  background-color: #ec362d;
+}
+
+.quizz-list .quizz {
+  min-width: 340px;
+  height: 181px;
+
+  position: relative;
+  margin-top: 14px;
+
+  cursor: pointer;
+}
+
+.quizz-list .quizz img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.quizz-list .quizz h4 {
+  width: 304px;
+
+  bottom: 15px;
+  left: 18px;
+  position: absolute;
+  z-index: 1;
+
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 22px;
+  color: white;
+}
+
+.quizz-list .quizz .gradient-overlay {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+
+  position: absolute;
+
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%);
+}
+
+.quizz-list .quizz:hover,
+.quizz-list .quizz:focus-visible {
+  outline: none;
+}
+
+.quizz-list .quizz:hover .gradient-overlay,
+.quizz-list .quizz:focus-visible .gradient-overlay {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(41, 41, 41, 0.5) 64.58%, rgb(41, 41, 41) 100%);
+}
+
+@media only screen and (max-width: 1100px) {
+  main {
+    width: 100%;
+    padding: 0 18px;
+  }
+
+  section {
+    margin-top: 35px;
+  }
+}
