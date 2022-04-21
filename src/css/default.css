@@ -2,9 +2,6 @@
 
 body {
   font-family: "Roboto", sans-serif;
-  display: flex;
-  justify-content: center;
-
   background-color: #fafafa;
 }
 
@@ -21,6 +18,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 2;
 }
 
 header h1 {
@@ -28,6 +26,12 @@ header h1 {
   font-size: 37px;
   line-height: 43px;
   color: white;
+}
+
+main {
+  margin: 69px 0;
+  display: flex;
+  justify-content: center;
 }
 
 button {
