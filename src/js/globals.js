@@ -6,7 +6,12 @@ const STYLESHEET = document.querySelector("link:last-of-type");
 
 // ========================= GLOBAL FUNCTIONS ==========================
 function getUserQuizzes() {
-  return JSON.parse(localStorage.getItem("userQuizzes"));
+  let userQuizzes = JSON.parse(localStorage.getItem("userQuizzes"));
+  if (userQuizzes === null) {
+    userQuizzes = [];
+    return userQuizzes;
+  }
+  return userQuizzes;
 }
 
 function setUserQuizzes(userQuizzes) {
