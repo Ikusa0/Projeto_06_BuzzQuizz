@@ -1,23 +1,62 @@
 // ========================= GLOBAL VARIABLES ==========================
 let screenTitle;
+let quizzTitle;
+let imageURL;
+let numberQuestions;
+let numberLevels;
 // =====================================================================
 
 // =========================== AUX FUNCTIONS ===========================
 function validationInput(element) {
-    // Se válido -> ok;
-    // Se pelo menos um inválido -> showError();
+    if (!element.validity.valid) {
+        showError(element);
+    } else {
+        const span = element.parentNode.querySelector("span");
+        span.classList.add("hidden");
+        element.classList.remove("invalid");
+    }
+}
+
+function saveData() {
+    let index = 0;
+    const allInputs = document.querySelectorAll("input");
+    allInputs.forEach((input) => {
+        if (index === 0) {
+            quizzTitle = input.value;
+        } else if (index === 1) {
+            imageURL = input.value;
+        } else if (index === 2) {
+            numberQuestions = input.value;
+        } else if (index === 3) {
+            numberLevels = input.value;
+        }
+        index++;
+    });
 }
 // =====================================================================
 
 // ===================== EVENT LISTENER FUNCTIONS ======================
 function toQuestions() {
-    // Se todos os inputs válidos -> salvar dados e secondScreen()
-    // Se algum inválido -> mensagem
+    let blank = 0;
+    const allInputs = document.querySelectorAll("input");
+    allInputs.forEach((input) => {
+        if (input.value === '') {
+            blank += 1;
+        }
+    });
+    const invalidInputs = document.querySelectorAll(".invalid");
+    if (invalidInputs.length === 0 && blank === 0) {
+        saveData();
+        secondScreen();
+    } else {
+        alert("Preencha todos os campos corretamente!");
+    }
 }
 
-function showError() {
-    // Tirar hidden do span relacionado
-    // Colocar classe invalid no input
+function showError(element) {
+    const span = element.parentNode.querySelector("span");
+    span.classList.remove("hidden");
+    element.classList.add("invalid");
 }
 // =====================================================================
 
@@ -25,6 +64,7 @@ function showError() {
 function cleanHTML() {
     MAIN_TAG.innerHTML = '';
 }
+
 function createTitle() {
     MAIN_TAG.innerHTML = `<h2>${screenTitle}</h2>`;
 }
@@ -38,16 +78,24 @@ function firstScreen() {
     MAIN_TAG.innerHTML += `
     <form>
         <ul class="input-list">
-            <input type="text" placeholder="Título do seu quizz" minlength="20" maxlength="65" onblur="validationInput(this)" required>
-            <span class="title error hidden">O quizz deve ter um título de no mínimo 20 e no máximo 65 caracteres</span>
-            <input type="url" placeholder="URL da imagem do seu quizz" onblur="validationInput(this)" required>
-            <span class="image error hidden">O valor informado não é uma URL válida</span>
-            <input type="number" placeholder="Quantidade de perguntas do quizz" min="3" onblur="validationInput(this)" required>
-            <span class="questions error hidden">O quizz deve ter no mínimo 3 perguntas</span>
-            <input type="number" placeholder="Quantidade de níveis do quizz" min="2" onblur="validationInput(this)" required>
-            <span class="levels error hidden">O quizz deve ter no mínimo 2 níveis</span>
+            <div>    
+                <input type="text" placeholder="Título do seu quizz" minlength="20" maxlength="65" onblur="validationInput(this)" required>
+                <span class="title error hidden">O quizz deve ter um título de no mínimo 20 e no máximo 65 caracteres</span>
+            </div>
+            <div>
+                <input type="url" placeholder="URL da imagem do seu quizz" onblur="validationInput(this)" required>
+                <span class="image error hidden">O valor informado não é uma URL válida</span>
+            </div>
+            <div>
+                <input type="number" placeholder="Quantidade de perguntas do quizz" min="3" onblur="validationInput(this)" required>
+                <span class="questions error hidden">O quizz deve ter no mínimo 3 perguntas</span>
+            </div>
+            <div>
+                <input type="number" placeholder="Quantidade de níveis do quizz" min="2" onblur="validationInput(this)" required>
+                <span class="levels error hidden">O quizz deve ter no mínimo 2 níveis</span>
+            </div>
         </ul>
-        <button type="button" onClick="validationForm()">Prosseguir para criar perguntas</button>
+        <button type="button" onClick="toQuestions()">Prosseguir para criar perguntas</button>
     </form>`;
 }
 
