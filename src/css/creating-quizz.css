@@ -81,3 +81,13 @@ button {
 .hidden {
     display: none;
 }
+
+@media screen and (max-width: 630px) {
+    form {
+        width: 100%;
+    }
+
+    .input-list {
+        width: 100%;
+    }
+}
