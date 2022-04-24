@@ -21,6 +21,8 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    margin-top: 25px;
 }
 
 .input-list {
@@ -29,6 +31,26 @@ form {
 
     background-color: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.main-question, .main-level {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-question ion-icon, .main-level ion-icon {
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.input-list h3 {
+    font-weight: 700;
+    font-size: 20px;
+    color: #000000;
+
+    margin-top: 20px;
+    margin-bottom: 13px;
 }
 
 input {
@@ -76,6 +98,10 @@ button {
     font-size: 21px;
     text-align: center;
     color: #FFF5F4;
+}
+
+.space {
+    margin-top: 25px;
 }
 
 .hidden {

@@ -1,30 +1,70 @@
 // ========================= GLOBAL VARIABLES ==========================
 let screenTitle;
-let quizzTitle;
-let imageURL;
 let numberQuestions;
 let numberLevels;
+let invalidInputs;
+
+let quizz = {
+    title:'',
+    image:'',
+    questions: [
+        {
+            title: '',
+            color: '',
+            answers: [
+                {
+                    text: '',
+                    image: '',
+                    isCorrectAnswer: Boolean,
+                },
+            ]
+        },
+    ],
+    levels: [
+        {
+            title: '',
+            image: '',
+            text: '',
+            minValue: Number,
+        },
+    ]
+};
 // =====================================================================
 
 // =========================== AUX FUNCTIONS ===========================
+function cleanHTML() {
+    MAIN_TAG.innerHTML = '';
+}
+
 function validationInput(element) {
+    const span = element.parentNode.querySelector("span");
     if (!element.validity.valid) {
         showError(element);
     } else {
-        const span = element.parentNode.querySelector("span");
         span.classList.add("hidden");
         element.classList.remove("invalid");
     }
 }
 
-function saveData() {
+function validationAllInputs() {
+    invalidInputs = 0;
+    const allInputs = document.querySelectorAll("input");
+    allInputs.forEach(input => {
+        if(!input.validity.valid) {
+            invalidInputs++;
+        }
+    });
+    return invalidInputs;
+}
+
+function saveBasic() {
     let index = 0;
     const allInputs = document.querySelectorAll("input");
-    allInputs.forEach((input) => {
+    allInputs.forEach(input => {
         if (index === 0) {
-            quizzTitle = input.value;
+            quizz.title = input.value;
         } else if (index === 1) {
-            imageURL = input.value;
+            quizz.image = input.value;
         } else if (index === 2) {
             numberQuestions = input.value;
         } else if (index === 3) {
@@ -33,21 +73,74 @@ function saveData() {
         index++;
     });
 }
+
+function saveQuestions() {
+    for(let i=0; i<numberQuestions; i++) {
+        let index = 0;
+        const selectUL = document.querySelector(`.question${i}`);
+        const allInputs = selectUL.querySelectorAll("input");
+        allInputs.forEach(input => {
+            if (index === 0) {
+                quizz.questions[i].title = input.value;
+            } else if (index === 1) {
+                quizz.questions[i].color = input.value;
+            } else if (index === 2) {
+                quizz.questions[i].answers[0].text = input.value;
+            } else if (index === 3) {
+                quizz.questions[i].answers[0].image = input.value;
+                quizz.questions[i].answers[0].isCorrectAnswer = true;
+            } else if (index === 4) {
+                quizz.questions[i].answers[1].text = input.value;
+            } else if (index === 5) {
+                quizz.questions[i].answers[1].image = input.value;
+                quizz.questions[i].answers[1].isCorrectAnswer = false;
+            } else if (input.value !== '' && index === 6) {
+                quizz.questions[i].answers[2].text = input.value;
+            } else if (input.value !== '' && index === 7) {
+                quizz.questions[i].answers[2].image = input.value;
+                quizz.questions[i].answers[2].isCorrectAnswer = false;
+            } else if (input.value !== '' && index === 8) {
+                quizz.questions[i].answers[3].text = input.value;
+            } else if (input.value !== '' && index === 9) {
+                quizz.questions[i].answers[3].image = input.value;
+                quizz.questions[i].answers[3].isCorrectAnswer = false;
+            }
+            index++;
+        });
+    }
+}
+
+function saveLevels() {
+
+}
 // =====================================================================
 
 // ===================== EVENT LISTENER FUNCTIONS ======================
 function toQuestions() {
-    let blank = 0;
-    const allInputs = document.querySelectorAll("input");
-    allInputs.forEach((input) => {
-        if (input.value === '') {
-            blank += 1;
-        }
-    });
-    const invalidInputs = document.querySelectorAll(".invalid");
-    if (invalidInputs.length === 0 && blank === 0) {
-        saveData();
+    validationAllInputs();
+    if (invalidInputs === 0) {
+        saveBasic();
         secondScreen();
+    } else {
+        alert("Preencha todos os campos corretamente!");
+    }
+}
+
+function toLevels() {
+    validationAllInputs();
+    if (invalidInputs === 0) {
+        saveQuestions();
+        thirdScreen();
+    } else {
+        alert("Preencha todos os campos corretamente!");
+    }
+}
+
+function finishQuizz() {
+    validationAllInputs();
+    if (invalidInputs === 0) {
+        saveLevels();
+        finalScreen();
     } else {
         alert("Preencha todos os campos corretamente!");
     }
@@ -58,13 +151,20 @@ function showError(element) {
     span.classList.remove("hidden");
     element.classList.add("invalid");
 }
+
+function showList(element) {
+    const questionOpen = document.querySelector(".open");
+    if (questionOpen !== null) {
+        questionOpen.classList.add("hidden");
+        questionOpen.classList.remove("open");
+    }
+    const thisQuestion = element.parentNode.parentNode.querySelector(".list");
+    thisQuestion.classList.remove("hidden");
+    thisQuestion.classList.add("open");
+}
 // =====================================================================
 
 // ========================== GENERATE HTML ============================
-function cleanHTML() {
-    MAIN_TAG.innerHTML = '';
-}
-
 function createTitle() {
     MAIN_TAG.innerHTML = `<h2>${screenTitle}</h2>`;
 }
@@ -78,21 +178,21 @@ function firstScreen() {
     MAIN_TAG.innerHTML += `
     <form>
         <ul class="input-list">
-            <div>    
+            <div>
                 <input type="text" placeholder="Título do seu quizz" minlength="20" maxlength="65" onblur="validationInput(this)" required>
-                <span class="title error hidden">O quizz deve ter um título de no mínimo 20 e no máximo 65 caracteres</span>
+                <span class="error hidden">O quizz deve ter um título de no mínimo 20 e no máximo 65 caracteres</span>
             </div>
             <div>
                 <input type="url" placeholder="URL da imagem do seu quizz" onblur="validationInput(this)" required>
-                <span class="image error hidden">O valor informado não é uma URL válida</span>
+                <span class="error hidden">O valor informado não é uma URL válida</span>
             </div>
             <div>
                 <input type="number" placeholder="Quantidade de perguntas do quizz" min="3" onblur="validationInput(this)" required>
-                <span class="questions error hidden">O quizz deve ter no mínimo 3 perguntas</span>
+                <span class="error hidden">O quizz deve ter no mínimo 3 perguntas</span>
             </div>
             <div>
                 <input type="number" placeholder="Quantidade de níveis do quizz" min="2" onblur="validationInput(this)" required>
-                <span class="levels error hidden">O quizz deve ter no mínimo 2 níveis</span>
+                <span class="error hidden">O quizz deve ter no mínimo 2 níveis</span>
             </div>
         </ul>
         <button type="button" onClick="toQuestions()">Prosseguir para criar perguntas</button>
@@ -100,36 +200,119 @@ function firstScreen() {
 }
 
 function secondScreen() {
+    STYLESHEET.href = "./src/css/creating-quizz.css";
     cleanHTML();
     screenTitle = "Crie suas perguntas";
     createTitle();
 
+    for (let i=0; i < numberQuestions; i++) {
+        MAIN_TAG.innerHTML += `
+        <form>
+            <ul class="input-list question${i}">
+                <div class="main-question">
+                    <h3>Pergunta ${i+1}</h3>
+                    <ion-icon name="create-outline" onClick="showList(this)"></ion-icon>
+                </div>
+                <div class="list hidden">
+                    <div>
+                        <input type="text" placeholder="Texto da pergunta" minlength="20" onblur="validationInput(this)" required>
+                        <span class="error hidden">A pergunta deve ter no mínimo 20 caracteres</span>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Cor de fundo da pergunta" pattern="^#+([a-fA-F0-9]{6})$" minlength="7" maxlength="7" onblur="validationInput(this)" required>
+                        <span class="error hidden">Deve estar em formato hexadecimal (começando com # seguido de 6 caracteres hexadecimais)</span>
+                    </div>
+                    <h3>Resposta correta</h3>
+                    <div>
+                        <input type="text" placeholder="Resposta correta" onblur="validationInput(this)" required>
+                        <span class="error hidden">É obrigatório a inclusão de uma resposta correta</span>
+                    </div>
+                    <div>
+                        <input type="url" placeholder="URL da imagem" onblur="validationInput(this)" required>
+                        <span class="error hidden">O valor informado não é uma URL válida</span>
+                    </div>
+                    <h3>Respostas incorretas</h3>
+                    <div>
+                        <input type="text" placeholder="Resposta incorreta 1" onblur="validationInput(this)" required>
+                        <span class="error hidden">É obrigatório a inclusão de pelo menos uma resposta incorreta</span>
+                    </div>
+                    <div>
+                        <input type="url" placeholder="URL da imagem 1" onblur="validationInput(this)" required>
+                        <span class="error hidden">O valor informado não é uma URL válida</span>
+                    </div>
+                    <div class="space">
+                        <input type="text" placeholder="Resposta incorreta 2">
+                    </div>
+                    <div>
+                        <input type="url" placeholder="URL da imagem 2 onblur="validationInput(this)">
+                        <span class="error hidden">O valor informado não é uma URL válida</span>
+                    </div>
+                    <div class="space">
+                        <input type="text" placeholder="Resposta incorreta 3">
+                    </div>
+                    <div>
+                        <input type="url" placeholder="URL da imagem 3 onblur="validationInput(this)">
+                        <span class="error hidden">O valor informado não é uma URL válida</span>
+                    </div>
+                </div>
+            </ul>`;
+    }
     MAIN_TAG.innerHTML += `
-    <ul class="input-list">
-        
-    </ul>
-    <button name="questions" type="button">Prosseguir para criar níveis</button>`;
+        <button type="button" onClick="toLevels()">Prosseguir para criar níveis</button>
+    </form>`
 }
 
 function thirdScreen() {
+    numberLevels = 2;
+    STYLESHEET.href = "./src/css/creating-quizz.css";
     cleanHTML();
     screenTitle = "Agora decida os níveis";
     createTitle();
 
+    for (let i=0; i < numberLevels; i++) {
+        MAIN_TAG.innerHTML += `
+        <form>
+            <ul class="input-list level${i}">
+                <div class="main-level">
+                    <h3>Nível ${i+1}</h3>
+                    <ion-icon name="create-outline" onClick="showList(this)"></ion-icon>
+                </div>
+                <div class="list hidden">
+                    <div>
+                        <input type="text" placeholder="Título do nível" minlength="10" onblur="validationInput(this)" required>
+                        <span class="error hidden">O título deve ter no mínimo 10 caracteres</span>
+                    </div>
+                    <div>
+                        <input type="number" placeholder="% de acerto mínima" min="0" max="100" onblur="validationInput(this)" required>
+                        <span class="error hidden">Deve ser um número entre 0 e 100</span>
+                    </div>
+                    <div>
+                        <input type="url" placeholder="URL da imagem do nível" onblur="validationInput(this)" required>
+                        <span class="error hidden">O valor informado não é uma URL válida</span>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Descrição do nível" minlength="30" onblur="validationInput(this)" required>
+                        <span class="error hidden">A descrição deve possuir no mínimo 30 caracteres</span>
+                    </div>
+                </div>
+            </ul>`;
+    }
     MAIN_TAG.innerHTML += `
-    <ul class="input-list">
-        <
-    </ul>
-    <button name="levels" type="button">Finalizar quizz</button>`;
+        <button type="button" onClick="finishQuizz()">Finalizar Quizz</button>
+    </form>`
 }
 
 function finalScreen() {
+    STYLESHEET.href = "./src/css/creating-quizz.css";
     cleanHTML();
     screenTitle = "Seu quizz está pronto";
     createTitle();
 
     MAIN_TAG.innerHTML += `
-    <button name="created-quizz" type="button">Acessar quizz</button>
-    <button name="home-screen" type="button">Voltar para home</button>`;
+    <button type="button">Acessar quizz</button>
+    <button type="button">Voltar para home</button>`;
 }
 // =====================================================================
+//firstScreen();
+//secondScreen();
+thirdScreen();
