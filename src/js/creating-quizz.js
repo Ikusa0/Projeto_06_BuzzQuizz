@@ -129,7 +129,7 @@ function toQuestions() {
 function toLevels() {
     validationAllInputs();
     if (invalidInputs === 0) {
-        saveQuestions();
+        //saveQuestions();
         thirdScreen();
     } else {
         alert("Preencha todos os campos corretamente!");
@@ -139,7 +139,7 @@ function toLevels() {
 function finishQuizz() {
     validationAllInputs();
     if (invalidInputs === 0) {
-        saveLevels();
+        //saveLevels();
         finalScreen();
     } else {
         alert("Preencha todos os campos corretamente!");
@@ -244,14 +244,14 @@ function secondScreen() {
                         <input type="text" placeholder="Resposta incorreta 2">
                     </div>
                     <div>
-                        <input type="url" placeholder="URL da imagem 2 onblur="validationInput(this)">
+                        <input type="url" placeholder="URL da imagem 2" onblur="validationInput(this)">
                         <span class="error hidden">O valor informado não é uma URL válida</span>
                     </div>
                     <div class="space">
                         <input type="text" placeholder="Resposta incorreta 3">
                     </div>
                     <div>
-                        <input type="url" placeholder="URL da imagem 3 onblur="validationInput(this)">
+                        <input type="url" placeholder="URL da imagem 3" onblur="validationInput(this)">
                         <span class="error hidden">O valor informado não é uma URL válida</span>
                     </div>
                 </div>
@@ -263,7 +263,6 @@ function secondScreen() {
 }
 
 function thirdScreen() {
-    numberLevels = 2;
     STYLESHEET.href = "./src/css/creating-quizz.css";
     cleanHTML();
     screenTitle = "Agora decida os níveis";
@@ -309,10 +308,11 @@ function finalScreen() {
     createTitle();
 
     MAIN_TAG.innerHTML += `
-    <button type="button">Acessar quizz</button>
-    <button type="button">Voltar para home</button>`;
+    <div class="your-quizz">
+        <img src=${quizz.image}>
+        <h3>${quizz.title}</h3>
+    </div>
+    <button class="last-button" type="button">Acessar quizz</button>
+    <button class="back-home" type="button">Voltar para home</button>`;
 }
 // =====================================================================
-//firstScreen();
-//secondScreen();
-thirdScreen();

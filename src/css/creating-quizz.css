@@ -100,6 +100,34 @@ button {
     color: #FFF5F4;
 }
 
+.last-button {
+    width: 220px;
+    height: 44px;
+    margin-top: 30px;
+}
+
+.back-home {
+    margin-top: 5px;
+    background-color: #FFFFFF;
+    color: #818181;
+}
+
+.your-quizz img {
+    width: 500px;
+    height: 266px;
+    object-fit: cover;
+
+    border-radius: 5px;
+}
+
+.your-quizz h3 {
+    font-size: 23px;
+    position: relative;
+    bottom: 45px;
+    left: 20px;
+    color: #FFFFFF;
+}
+
 .space {
     margin-top: 25px;
 }
@@ -114,6 +142,16 @@ button {
     }
 
     .input-list {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .your-quizz {
+        width: 100%;
+    }
+
+    .your-quizz img {
         width: 100%;
     }
 }
