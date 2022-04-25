@@ -4,6 +4,8 @@ let numberQuestions;
 let numberLevels;
 let invalidInputs;
 let quizz = {};
+let userQuizzes = [];
+let quizzID;
 // =====================================================================
 
 // =========================== AUX FUNCTIONS ===========================
@@ -100,7 +102,27 @@ function saveQuestions() {
 }
 
 function saveLevels() {
-
+    let levelsSaving = [];
+    for(let i=0; i<numberLevels; i++) {
+        let level = {};
+        let index = 0;
+        const selectUL = document.querySelector(`.level${i}`);
+        const allInputs = selectUL.querySelectorAll("input");
+        allInputs.forEach(input => {
+            if (index === 0) {
+                level.title = input.value;
+            } else if (index === 1) {
+                level.minValue = Number(input.value);
+            } else if (index === 2) {
+                level.image = input.value;
+            } else if (index === 3) {
+                level.text = input.value;
+            }
+            index++;
+        });
+        levelsSaving.push(level);
+    }
+    quizz.levels = levelsSaving;
 }
 // =====================================================================
 
@@ -128,11 +150,20 @@ function toLevels() {
 function finishQuizz() {
     validationAllInputs();
     if (invalidInputs === 0) {
-        //saveLevels();
-        finalScreen();
+        saveLevels();
+        const promise = axios.post('https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes', quizz)
+        promise.then(getQuizz)
     } else {
         alert("Preencha todos os campos corretamente!");
     }
+}
+
+function getQuizz(myQuizz) {
+    const userQuizz = myQuizz.data;
+    userQuizzes.push(userQuizz);
+    setUserQuizzes(userQuizzes);
+    quizzID = userQuizz.id;
+    finalScreen();
 }
 
 function showError(element) {
@@ -304,4 +335,8 @@ function finalScreen() {
     <button class="last-button" type="button">Acessar quizz</button>
     <button class="back-home" type="button">Voltar para home</button>`;
 }
+// Abrir quizz pelo quizzID
+// voltar para o menu chamando a função que abre o menu
 // =====================================================================
+
+firstScreen();
