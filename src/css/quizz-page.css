@@ -242,10 +242,6 @@ footer .home {
   color: #818181;
 }
 
-.hidden {
-  display: none;
-}
-
 @media only screen and (min-width: 1100px) {
   .question {
     min-width: 760px;

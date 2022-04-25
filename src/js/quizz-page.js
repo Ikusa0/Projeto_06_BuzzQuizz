@@ -35,6 +35,7 @@ function sortLevels(a, b) {
 
 // ===================== EVENT LISTENER FUNCTIONS ======================
 function quizzLoadPage(quizID) {
+  showLoadingScreen();
   const promise = axios.get(`${API}/quizzes/${quizID}`);
 
   promise.then((response) => {
@@ -55,6 +56,7 @@ function quizzLoadPage(quizID) {
     window.scrollTo(0, 0);
     STYLESHEET.href = "./src/css/quizz-page.css";
     MAIN_TAG.innerHTML = html;
+    hideLoadingScreen();
   });
 }
 

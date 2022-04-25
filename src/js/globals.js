@@ -2,6 +2,7 @@
 const API = "https://mock-api.driven.com.br/api/v6/buzzquizz";
 const MAIN_TAG = document.querySelector("main");
 const STYLESHEET = document.querySelector("link:last-of-type");
+const LOADING_SCREEN = document.querySelector(".loading-screen");
 // =====================================================================
 
 // ========================= GLOBAL FUNCTIONS ==========================
@@ -16,5 +17,13 @@ function getUserQuizzes() {
 
 function setUserQuizzes(userQuizzes) {
   localStorage.setItem("userQuizzes", JSON.stringify(userQuizzes));
+}
+
+function showLoadingScreen() {
+  LOADING_SCREEN.classList.remove("hidden");
+}
+
+function hideLoadingScreen() {
+  LOADING_SCREEN.classList.add("hidden");
 }
 // =====================================================================

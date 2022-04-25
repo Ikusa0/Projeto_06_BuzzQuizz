@@ -1,5 +1,6 @@
 // ========================== GENERATE HTML ============================
 function listingQuizzesLoadPage() {
+  showLoadingScreen();
   const promise = axios.get(`${API}/quizzes`);
 
   promise.then((response) => {
@@ -12,6 +13,7 @@ function listingQuizzesLoadPage() {
     window.scrollTo(0, 0);
     STYLESHEET.href = "./src/css/listing-quizzes.css";
     MAIN_TAG.innerHTML = html;
+    hideLoadingScreen();
 
     const userQuizList = MAIN_TAG.querySelector(".user-quizzes .quiz-list");
     createUserQuizzes(userQuizList);
