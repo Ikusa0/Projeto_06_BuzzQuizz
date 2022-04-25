@@ -3,32 +3,7 @@ let screenTitle;
 let numberQuestions;
 let numberLevels;
 let invalidInputs;
-
-let quizz = {
-    title:'',
-    image:'',
-    questions: [
-        {
-            title: '',
-            color: '',
-            answers: [
-                {
-                    text: '',
-                    image: '',
-                    isCorrectAnswer: Boolean,
-                },
-            ]
-        },
-    ],
-    levels: [
-        {
-            title: '',
-            image: '',
-            text: '',
-            minValue: Number,
-        },
-    ]
-};
+let quizz = {};
 // =====================================================================
 
 // =========================== AUX FUNCTIONS ===========================
@@ -75,39 +50,53 @@ function saveBasic() {
 }
 
 function saveQuestions() {
+    let questionsSaving = [];
     for(let i=0; i<numberQuestions; i++) {
+        let question = {};
+        let answer1 = {};
+        let answer2 = {};
+        let answer3 = {};
+        let answer4 = {};
+        let answersSaving = [];
         let index = 0;
         const selectUL = document.querySelector(`.question${i}`);
         const allInputs = selectUL.querySelectorAll("input");
         allInputs.forEach(input => {
             if (index === 0) {
-                quizz.questions[i].title = input.value;
+                question.title = input.value;
             } else if (index === 1) {
-                quizz.questions[i].color = input.value;
+                question.color = input.value;
             } else if (index === 2) {
-                quizz.questions[i].answers[0].text = input.value;
+                answer1.text = input.value;
             } else if (index === 3) {
-                quizz.questions[i].answers[0].image = input.value;
-                quizz.questions[i].answers[0].isCorrectAnswer = true;
+                answer1.image = input.value;
+                answer1.isCorrectAnswer = true;
+                answersSaving.push(answer1);
             } else if (index === 4) {
-                quizz.questions[i].answers[1].text = input.value;
+                answer2.text = input.value;
             } else if (index === 5) {
-                quizz.questions[i].answers[1].image = input.value;
-                quizz.questions[i].answers[1].isCorrectAnswer = false;
+                answer2.image = input.value;
+                answer2.isCorrectAnswer = false;
+                answersSaving.push(answer2);
             } else if (input.value !== '' && index === 6) {
-                quizz.questions[i].answers[2].text = input.value;
+                answer3.text = input.value;
             } else if (input.value !== '' && index === 7) {
-                quizz.questions[i].answers[2].image = input.value;
-                quizz.questions[i].answers[2].isCorrectAnswer = false;
+                answer3.image = input.value;
+                answer3.isCorrectAnswer = false;
+                answersSaving.push(answer3);
             } else if (input.value !== '' && index === 8) {
-                quizz.questions[i].answers[3].text = input.value;
+                answer4.text = input.value;
             } else if (input.value !== '' && index === 9) {
-                quizz.questions[i].answers[3].image = input.value;
-                quizz.questions[i].answers[3].isCorrectAnswer = false;
+                answer4.image = input.value;
+                answer4.isCorrectAnswer = false;
+                answersSaving.push(answer4);
             }
+            question.answers = answersSaving;
             index++;
         });
+        questionsSaving.push(question);
     }
+    quizz.questions = questionsSaving;
 }
 
 function saveLevels() {
@@ -129,7 +118,7 @@ function toQuestions() {
 function toLevels() {
     validationAllInputs();
     if (invalidInputs === 0) {
-        //saveQuestions();
+        saveQuestions();
         thirdScreen();
     } else {
         alert("Preencha todos os campos corretamente!");
