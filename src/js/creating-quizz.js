@@ -198,7 +198,7 @@ function createTitle() {
     MAIN_TAG.innerHTML = `<h2>${screenTitle}</h2>`;
 }
 
-function firstScreen() {
+function createQuizzFirstScreen() {
     STYLESHEET.href = "./src/css/creating-quizz.css";
     cleanHTML();
     screenTitle = "Comece pelo começo";
