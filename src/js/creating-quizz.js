@@ -156,7 +156,8 @@ function finishQuizz() {
     if (invalidInputs === 0) {
         saveLevels();
         if (levelZeroPercent) {
-            loadingScreen();
+            cleanHTML();
+            showLoadingScreen();
             const promise = axios.post('https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes', quizz);
             promise.then(getQuizz);
         } else {
@@ -332,6 +333,7 @@ function thirdScreen() {
 
 function finalScreen() {
     STYLESHEET.href = "./src/css/creating-quizz.css";
+    hideLoadingScreen();
     cleanHTML();
     screenTitle = "Seu quizz está pronto";
     createTitle();
