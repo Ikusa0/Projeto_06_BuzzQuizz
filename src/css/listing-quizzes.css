@@ -1,5 +1,5 @@
 article {
-  width: 1051px;
+  max-width: 1051px;
 }
 
 section {
@@ -87,7 +87,7 @@ section {
 }
 
 .quiz-list .quiz {
-  min-width: 340px;
+  max-width: 340px;
   width: 340px;
   height: 180px;
 
@@ -117,6 +117,10 @@ section {
   font-size: 19px;
   line-height: 22px;
   color: white;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .quiz-list .quiz .gradient-overlay {
@@ -149,14 +153,15 @@ section {
 @media only screen and (max-width: 1100px) {
   main {
     width: 100%;
-    margin: 69px 18px;
+    padding: 0 18px;
+    box-sizing: border-box;
   }
 
   section {
     margin-top: 35px;
   }
 
-  .user-quizzes div {
+  .user-quizzes .header {
     width: 100%;
     justify-content: space-between;
   }
