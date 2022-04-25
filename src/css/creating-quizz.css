@@ -162,12 +162,6 @@ button {
     .input-list {
         width: 100%;
     }
-}
-
-@media screen and (max-width: 500px) {
-    .your-quizz {
-        width: 100%;
-    }
 
     .your-quizz img {
         width: 100%;
