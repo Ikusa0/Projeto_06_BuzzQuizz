@@ -2,10 +2,11 @@
 let screenTitle;
 let numberQuestions;
 let numberLevels;
+let levelZeroPercent;
 let invalidInputs;
 let quizz = {};
 let userQuizzes = [];
-let quizzID;
+let quizID;
 // =====================================================================
 
 // =========================== AUX FUNCTIONS ===========================
@@ -120,6 +121,9 @@ function saveLevels() {
             }
             index++;
         });
+        if (level.minValue === 0) {
+            levelZeroPercent = true;
+        }
         levelsSaving.push(level);
     }
     quizz.levels = levelsSaving;
@@ -151,8 +155,13 @@ function finishQuizz() {
     validationAllInputs();
     if (invalidInputs === 0) {
         saveLevels();
-        const promise = axios.post('https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes', quizz)
-        promise.then(getQuizz)
+        if (levelZeroPercent) {
+            const promise = axios.post('https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes', quizz);
+            promise.then(getQuizz);
+            bufferScreen();
+        } else {
+            alert("Pelo menos um nível deve possuir % de acerto mínima igual a 0%")
+        }
     } else {
         alert("Preencha todos os campos corretamente!");
     }
@@ -162,7 +171,7 @@ function getQuizz(myQuizz) {
     const userQuizz = myQuizz.data;
     userQuizzes.push(userQuizz);
     setUserQuizzes(userQuizzes);
-    quizzID = userQuizz.id;
+    quizID = userQuizz.id;
     finalScreen();
 }
 
@@ -332,11 +341,20 @@ function finalScreen() {
         <img src=${quizz.image}>
         <h3>${quizz.title}</h3>
     </div>
-    <button class="last-button" type="button">Acessar quizz</button>
-    <button class="back-home" type="button">Voltar para home</button>`;
+    <button class="last-button" type="button" onClick="quizzPageLoadPage(quizID)">Acessar quizz</button>
+    <button class="back-home" type="button" onClick="listingQuizzesLoadPage()">Voltar para home</button>`;
 }
-// Abrir quizz pelo quizzID
-// voltar para o menu chamando a função que abre o menu
-// =====================================================================
 
+function bufferScreen() {
+    STYLESHEET.href = "./src/css/creating-quizz.css";
+    cleanHTML();
+
+    MAIN_TAG.innerHTML += `
+    <div class="buffer">
+        <img src="http://maisremedio.com/maisremedio/img/reload.gif">
+        <h2>Carregando...</h2>
+    </div>
+    `;
+}
+// =====================================================================
 firstScreen();
