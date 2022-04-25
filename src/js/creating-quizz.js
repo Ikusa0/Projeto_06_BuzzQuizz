@@ -156,9 +156,9 @@ function finishQuizz() {
     if (invalidInputs === 0) {
         saveLevels();
         if (levelZeroPercent) {
+            loadingScreen();
             const promise = axios.post('https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes', quizz);
             promise.then(getQuizz);
-            bufferScreen();
         } else {
             alert("Pelo menos um nível deve possuir % de acerto mínima igual a 0%")
         }
@@ -345,16 +345,15 @@ function finalScreen() {
     <button class="back-home" type="button" onClick="listingQuizzesLoadPage()">Voltar para home</button>`;
 }
 
-function bufferScreen() {
+function loadingScreen() {
     STYLESHEET.href = "./src/css/creating-quizz.css";
     cleanHTML();
 
     MAIN_TAG.innerHTML += `
-    <div class="buffer">
+    <div class="loading">
         <img src="http://maisremedio.com/maisremedio/img/reload.gif">
         <h2>Carregando...</h2>
     </div>
     `;
 }
 // =====================================================================
-firstScreen();
