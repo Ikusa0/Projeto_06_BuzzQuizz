@@ -25,7 +25,7 @@ function createUserQuizzesList() {
     return `
     <section class="create-quiz">
       <span>Você não criou nenhum quizz ainda :(</span>
-      <button>Criar Quizz</button>
+      <button onClick="createQuizzFirstScreen()">Criar Quizz</button>
     </section>`;
   }
 
@@ -33,7 +33,7 @@ function createUserQuizzesList() {
   <section class="user-quizzes">
     <div class="header">
       <h2>Seus Quizzes</h2>
-      <ion-icon tabindex="0" class="icon new-quiz" name="add-circle"></ion-icon>
+      <ion-icon onclick="createQuizzFirstScreen()" tabindex="0" class="icon new-quiz" name="add-circle"></ion-icon>
     </div>
     <ul class="quiz-list">
     </ul>
