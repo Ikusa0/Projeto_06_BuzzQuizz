@@ -1,3 +1,40 @@
+// ===================== EVENT LISTENER FUNCTIONS ======================
+function deleteQuiz(quizID) {
+  const userQuizzes = getUserQuizzes();
+  const deleteAnswer = confirm("Realmente deseja deletar o Quiz?");
+
+  if (deleteAnswer === false) {
+    alert("Operação cancelada!");
+    return;
+  }
+
+  let secreteKey;
+  let quizIndex;
+  for (let i = 0; i < userQuizzes.length; i++) {
+    if (userQuizzes[i].id === quizID) {
+      secreteKey = userQuizzes[i].key;
+      quizIndex = i;
+      break;
+    }
+  }
+
+  const promise = axios.delete(`${API}/quizzes/${quizID}`, {
+    headers: {
+      "Secret-Key": secreteKey,
+    },
+  });
+
+  promise.then(() => {
+    userQuizzes.splice(quizIndex);
+    setUserQuizzes(userQuizzes);
+    alert("Quiz deletado com sucesso!");
+    listingQuizzesLoadPage();
+  });
+
+  promise.catch(alert, "Ocorreu um erro ao deletar o quiz!");
+}
+// =====================================================================
+
 // ========================== GENERATE HTML ============================
 function listingQuizzesLoadPage() {
   showLoadingScreen();
@@ -67,12 +104,27 @@ function createUserQuizzes(userQuizList) {
 
     promise.then((response) => {
       const quiz = response.data;
-      userQuizList.innerHTML += createQuiz(quiz);
+      userQuizList.innerHTML += createQuiz(quiz, (userQuiz = true));
     });
   });
 }
 
-function createQuiz(quiz) {
+function createQuiz(quiz, userQuiz = false) {
+  if (userQuiz === true) {
+    return `
+    <li class="quiz">
+      <div class="menu">
+      <ion-icon class="icon" tabindex="0" onclick="editQuiz(${quiz.id})" name="create-outline"></ion-icon>
+        <ion-icon class="icon" tabindex="0" onclick="deleteQuiz(${quiz.id})" name="trash-outline"></ion-icon>
+      </div>
+      <div>
+      <h4>${quiz.title}</h4>
+      <div class="gradient-overlay"></div>
+      </div>
+      <img src="${quiz.image}" />
+    </li>`;
+  }
+
   return `
       <li onclick="quizzLoadPage(${quiz.id})" tabindex="0" class="quiz">
         <h4>${quiz.title}</h4>

@@ -14,7 +14,8 @@ section {
   color: black;
 }
 
-.user-quizzes div {
+.user-quizzes .gradient-overlay,
+.user-quizzes .header {
   display: flex;
   align-items: center;
 }
@@ -141,6 +142,35 @@ section {
 .quiz-list .quiz:hover .gradient-overlay,
 .quiz-list .quiz:focus-visible .gradient-overlay {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(41, 41, 41, 0.5) 64.58%, rgb(41, 41, 41) 100%);
+}
+
+.menu {
+  width: 45px;
+  height: 85px;
+
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  font-size: 24px;
+
+  background-color: #ec362d;
+  color: white;
+
+  padding: 10px 0;
+  box-sizing: border-box;
+  border-radius: 10px 0 0 10px;
+}
+
+.menu .icon:hover,
+.menu .icon:focus-visible {
+  color: rgb(255, 166, 0);
 }
 
 /* 1087px: margens laterais da página + tamanho da grid de quizzes (36 + 1051) */
