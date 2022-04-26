@@ -343,7 +343,7 @@ function finalScreen() {
         <img src=${quizz.image}>
         <h3>${quizz.title}</h3>
     </div>
-    <button class="last-button" type="button" onClick="quizzPageLoadPage(quizID)">Acessar quizz</button>
+    <button class="last-button" type="button" onClick="quizzLoadPage(quizID)">Acessar quizz</button>
     <button class="back-home" type="button" onClick="listingQuizzesLoadPage()">Voltar para home</button>`;
 }
 // =====================================================================
