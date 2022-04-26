@@ -26,6 +26,8 @@ header h1 {
   font-size: 37px;
   line-height: 43px;
   color: white;
+
+  cursor: pointer;
 }
 
 main {
